@@ -72,7 +72,7 @@ h1{font-size:40px;margin:0;line-height:1.1}
 .sz.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .btn{width:100%;background:var(--ink);color:#fff;border:0;padding:17px;font-size:16px;cursor:pointer}
 .btn.alt{background:#fff;color:var(--ink);border:1px solid var(--ink);margin-top:10px}
-.desc{color:#444;line-height:1.55}
+.desc{color:#444;line-height:1.55;white-space:pre-line}
 .items{flex:1;overflow:auto}
 .it{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .it .th{width:60px;height:66px;background:var(--card);flex:none;overflow:hidden}
@@ -87,71 +87,105 @@ h1{font-size:40px;margin:0;line-height:1.1}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 footer{border-top:1px solid var(--line);padding:26px 18px;text-align:center;color:var(--mute);font-size:14px}
 footer a{color:var(--ink)}
+
+/* ===== Ձախ մենյու (բրենդներ) ===== */
+.menu{left:0;right:auto;width:min(360px,86%);padding:0;transform:translateX(-105%)}
+.menu.on{transform:none}
+.menu .m-head{display:flex;justify-content:space-between;align-items:center;background:var(--teal);color:#fff;padding:18px 20px;position:sticky;top:0;z-index:1}
+.menu .m-head strong{font-size:18px;letter-spacing:.5px}
+.menu .m-head .x{color:#fff}
+.menu .m-brand{display:flex;align-items:center;gap:12px}
+.menu .m-brand img{width:46px;height:46px;border-radius:50%;object-fit:cover;transform:scale(1.06)}
+.menu h3{margin:0;padding:22px 20px 8px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--mute);font-weight:500}
+.menu ul{list-style:none;margin:0;padding:0}
+.menu li button{width:100%;display:flex;justify-content:space-between;align-items:center;background:#fff;border:0;border-bottom:1px solid var(--line);padding:16px 20px;font-size:17px;text-align:left;cursor:pointer}
+.menu li button:active{background:#f3f6f6}
+.menu li button.on{background:var(--ink);color:#fff}
+.menu li button span{color:var(--mute);font-size:14px}
+.menu li button.on span{color:#bbb}
+.menu .gap{height:8px;background:#f4f4f4;margin-top:16px}
 </style>
 </head>
 <body>
 <div class="top" id="topbar"></div>
 <header>
-  <button class="ib" id="menuBtn" aria-label="Մենյու"><svg viewBox="0 0 24 24"><path d="M3 8h18M3 12h12M3 16h18"/></svg></button>
-  <a class="logo" href="./" aria-label="Luxe Parfume Shop"><img src="logo.jpeg" alt="Luxe Parfume Shop"></a>
-  <div class="icons">
-    <button class="ib" id="searchBtn" aria-label="Որոնում"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
-    <button class="ib" id="favBtn" aria-label="Ընտրյալներ"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9.2C1.8 7.2 4 4 7.2 4c1.9 0 3.5 1 4.8 2.7C13.300 5 14.900 4 16.800 4 20 4 22.200 7.200 21 10.800 19 15.600 12 20 12 20z"/></svg><span class="badge" id="favN"></span></button>
-    <button class="ib" id="cartBtn" aria-label="Զամբյուղ"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2"/></svg><span class="badge" id="cartN"></span></button>
-  </div>
+<button class="ib" id="menuBtn" aria-label="Մենյու"><svg viewBox="0 0 24 24"><path d="M3 8h18M3 12h12M3 16h18"/></svg></button>
+<a class="logo" href="./" aria-label="Luxe Parfume Shop"><img src="logo.jpeg" alt="Luxe Parfume Shop"></a>
+<div class="icons">
+<button class="ib" id="searchBtn" aria-label="Որոնում"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+<button class="ib" id="favBtn" aria-label="Ընտրյալներ"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9.2C1.8 7.2 4 4 7.2 4c1.9 0 3.5 1 4.8 2.7C13.3 5 14.9 4 16.8 4 20 4 22.2 7.2 21 10.8 19 15.6 12 20 12 20z"/></svg><span class="badge" id="favN"></span></button>
+<button class="ib" id="cartBtn" aria-label="Զամբյուղ"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2"/></svg><span class="badge" id="cartN"></span></button>
+</div>
 </header>
-
 <main>
-  <div class="eyebrow">Կատալոգ</div>
-  <div class="titlebar"><h1 id="title">Օծանելիք</h1><div class="count" id="count"></div></div>
-  <div class="chips" id="chips"></div>
-  <div class="ctrl">
-    <input type="search" id="q" placeholder="Որոնել ապրանքներ...">
-    <button class="sale" id="saleBtn">Միայն զեղչով</button>
-    <div class="row2">
-      <select id="ml"></select>
-      <select id="sort">
-        <option value="new">Նորույթներ</option>
-        <option value="asc">Գին՝ աճող</option>
-        <option value="desc">Գին՝ նվազող</option>
-      </select>
-    </div>
-  </div>
-  <button class="clear" id="clear">Մաքրել ֆիլտրերը</button>
-  <div class="grid" id="grid"></div>
+<div class="eyebrow">Կատալոգ</div>
+<div class="titlebar"><h1 id="title">Օծանելիք</h1><div class="count" id="count"></div></div>
+<div class="chips" id="chips"></div>
+<div class="ctrl">
+<input type="search" id="q" placeholder="Որոնել ապրանքներ...">
+<button class="sale" id="saleBtn">Միայն զեղչով</button>
+<div class="row2">
+<select id="ml"></select>
+<select id="sort">
+<option value="new">Նորույթներ</option>
+<option value="asc">Գին՝ աճող</option>
+<option value="desc">Գին՝ նվազող</option>
+</select>
+</div>
+</div>
+<button class="clear" id="clear">Մաքրել ֆիլտրերը</button>
+<div class="grid" id="grid"></div>
 </main>
-
 <footer>
-  © Luxe Parfume Shop · Երևան<br>
-  <a id="igLink" target="_blank" rel="noopener">Instagram</a>
+© Luxe Parfume Shop · Երևան<br>
+<a id="igLink" target="_blank" rel="noopener">Instagram</a>
 </footer>
-
 <div class="shade" id="shade"></div>
-
 <div class="sheet" id="prod"></div>
-
 <aside class="sheet drawer" id="cart">
-  <div class="sh-h"><h2>Զամբյուղ</h2><button class="x" data-close>×</button></div>
-  <div class="items" id="items"></div>
-  <div id="cartFoot"></div>
+<div class="sh-h"><h2>Զամբյուղ</h2><button class="x" data-close>×</button></div>
+<div class="items" id="items"></div>
+<div id="cartFoot"></div>
 </aside>
-
+<aside class="sheet drawer menu" id="menu" aria-label="Բրենդներ">
+<div class="m-head"><div class="m-brand"><img src="logo.jpeg" alt="Luxe Parfume Shop"><strong>Բրենդներ</strong></div><button class="x" data-close aria-label="Փակել">×</button></div>
+<div id="menuBody"></div>
+</aside>
 <div class="toast" id="toast"></div>
-
 <script>
 /* ============ ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ ============
-   Ապրանքները ավելացվում/փոխվում են Supabase → Table Editor → products */
+Ապրանքները ավելացվում/փոխվում են Supabase → Table Editor → products */
 const CONFIG = {
-  instagram: "luxe_parfume_shop",          // Instagram-ի անունը (առանց @)
-  topText: "Անվճար առաքում Երևանի մետրոյի կայարաններում",       // վերևի սև գոտու տեքստը
-  currency: "֏",
-  supabaseUrl: "https://eyasccbvnzactrybnmtu.supabase.co",
-  supabaseKey: "sb_publishable_GSc_kUUgJzZa73qL4rTE_Q_UbhRD5Za"   // publishable key՝ անվտանգ է կայքում
+instagram: "luxe_parfume_shop", // Instagram-ի անունը (առանց @)
+topText: "Անվճար առաքում Երևանի մետրոյի կայարաններում", // վերևի սև գոտու տեքստը
+currency: "֏",
+supabaseUrl: "https://eyasccbvnzactrybnmtu.supabase.co",
+supabaseKey: "sb_publishable_GSc_kUUgJzZa73qL4rTE_Q_UbhRD5Za" // publishable key՝ անվտանգ է կայքում
 };
 
-let PRODUCTS = [];  // ապրանքները բեռնվում են Supabase-ից
+/* ============ ԲՐԵՆԴՆԵՐԻ ՑԱՆԿ (3 գծի մենյու) ============
+Յուրաքանչյուր բրենդի համար՝ [ցուցադրվող անուն, [Supabase-ի brand սյունակում հանդիպող գրելաձևեր]]
+Համեմատումը անտեսում է մեծատառ/փոքրատառը, բացատները և նշանները։ */
+const BRAND_GROUPS = [
+  ["Աշխարհահռչակ բրենդներ", [
+    ["Dior", ["dior"]],
+    ["Dolce & Gabbana", ["dolceandgabbana","dolcegabbana","dandg"]],
+    ["Emporio Armani", ["emporioarmani"]],
+    ["Yves Saint Laurent", ["yvessaintlaurent","saintlaurent","ysl"]],
+    ["Tom Ford", ["tomford"]],
+    ["Prada", ["prada"]]
+  ]],
+  ["Արաբական օծանելիք", [
+    ["Armaf", ["armaf"]],
+    ["Fragrance World", ["fragranceworld"]],
+    ["Lattafa", ["lattafa"]],
+    ["French Avenue", ["frenchavenue"]],
+    ["Maison Alhambra", ["maisonalhambra","alhambra"]]
+  ]]
+];
 /* ====================================================== */
 
+let PRODUCTS = []; // ապրանքները բեռնվում են Supabase-ից
 const CATS = [["all","Բոլորը"],["women","Կանացի"],["men","Տղամարդկանց"],["unisex","Յունիսեքս"]];
 const $ = id => document.getElementById(id);
 const fmt = n => n.toLocaleString("ru-RU").replace(/\u00a0/g," ") + " " + CONFIG.currency;
@@ -159,196 +193,221 @@ const price = (p,s) => Math.round(s.price*(100-(p.sale||0))/100/100)*100;
 const minPrice = p => Math.min(...p.sizes.map(s=>price(p,s)));
 const load = (k,d) => { try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d} };
 const save = (k,v) => { try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} };
+const norm = s => (s||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]/g,"");
+const BRAND_ALIASES = {};
+BRAND_GROUPS.forEach(g => g[1].forEach(b => BRAND_ALIASES[b[0]] = b[1]));
+const brandMatch = (p, name) => { const nb = norm(p.brand); return (BRAND_ALIASES[name]||[norm(name)]).some(a => nb.includes(a)); };
 
-let state = {cat:"all", q:"", sale:false, ml:"all", sort:"new", favOnly:false};
+let state = {cat:"all", q:"", sale:false, ml:"all", sort:"new", favOnly:false, brand:"all"};
 let favs = load("lp_favs", []);
-let cart = load("lp_cart", []);   // [{id, ml, n}]
+let cart = load("lp_cart", []); // [{id, ml, n}]
 let current = null, currentMl = null;
 
 $("topbar").textContent = CONFIG.topText;
 $("igLink").href = "https://instagram.com/" + CONFIG.instagram;
 $("igLink").textContent = "@" + CONFIG.instagram;
 
-const heart = '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9.2C1.8 7.2 4 4 7.2 4c1.9 0 3.5 1 4.8 2.7C13.3 5 14.9 4 16.8 4 20 4 22.200 7.200 21 10.800 19 15.600 12 20 12 20z"/></svg>';
-
+const heart = '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9.2C1.8 7.2 4 4 7.2 4c1.9 0 3.5 1 4.8 2.7C13.3 5 14.9 4 16.8 4 20 4 22.2 7.2 21 10.8 19 15.6 12 20 12 20z"/></svg>';
 function bottle(color){
-  return `<svg class="ph" viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice"><rect width="100" height="110" fill="${color}" opacity=".35"/><rect x="40" y="18" width="20" height="10" rx="2" fill="#0b0b0b"/><rect x="45" y="28" width="10" height="8" fill="#b08d57"/><rect x="28" y="36" width="44" height="58" rx="8" fill="#fff" opacity=".85" stroke="#0b0b0b" stroke-width="1.2"/><rect x="35" y="52" width="30" height="22" rx="2" fill="${color}"/></svg>`;
+return `<svg class="ph" viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice"><rect width="100" height="110" fill="${color}" opacity=".35"/><rect x="40" y="18" width="20" height="10" rx="2" fill="#0b0b0b"/><rect x="45" y="28" width="10" height="8" fill="#b08d57"/><rect x="28" y="36" width="44" height="58" rx="8" fill="#fff" opacity=".85" stroke="#0b0b0b" stroke-width="1.2"/><rect x="35" y="52" width="30" height="22" rx="2" fill="${color}"/></svg>`;
 }
 const pic = p => p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : bottle(p.color);
 
 function filtered(){
-  let list = PRODUCTS.filter(p=>{
-    if(state.favOnly && !favs.includes(p.id)) return false;
-    if(state.cat!=="all" && p.cat!==state.cat) return false;
-    if(state.sale && !p.sale) return false;
-    if(state.ml!=="all" && !p.sizes.some(s=>String(s.ml)===state.ml)) return false;
-    if(state.q){
-      const t=(p.brand+" "+p.name+" "+p.desc).toLowerCase();
-      if(!t.includes(state.q.toLowerCase())) return false;
-    }
-    return true;
-  });
-  if(state.sort==="asc") list.sort((a,b)=>minPrice(a)-minPrice(b));
-  else if(state.sort==="desc") list.sort((a,b)=>minPrice(b)-minPrice(a));
-  else list.sort((a,b)=>b.id-a.id);
-  return list;
+let list = PRODUCTS.filter(p=>{
+if(state.favOnly && !favs.includes(p.id)) return false;
+if(state.brand!=="all" && !brandMatch(p, state.brand)) return false;
+if(state.cat!=="all" && p.cat!==state.cat) return false;
+if(state.sale && !p.sale) return false;
+if(state.ml!=="all" && !p.sizes.some(s=>String(s.ml)===state.ml)) return false;
+if(state.q){
+const t=(p.brand+" "+p.name+" "+p.desc).toLowerCase();
+if(!t.includes(state.q.toLowerCase())) return false;
+}
+return true;
+});
+if(state.sort==="asc") list.sort((a,b)=>minPrice(a)-minPrice(b));
+else if(state.sort==="desc") list.sort((a,b)=>minPrice(b)-minPrice(a));
+else list.sort((a,b)=>b.id-a.id);
+return list;
 }
 
 function renderChips(){
-  $("chips").innerHTML = CATS.map(([k,l])=>{
-    const n = k==="all"?PRODUCTS.length:PRODUCTS.filter(p=>p.cat===k).length;
-    if(k!=="all" && !n) return "";
-    return `<button class="chip ${state.cat===k?"on":""}" data-cat="${k}">${l}<span>${n}</span></button>`;
-  }).join("");
+$("chips").innerHTML = CATS.map(([k,l])=>{
+const n = k==="all"?PRODUCTS.length:PRODUCTS.filter(p=>p.cat===k).length;
+if(k!=="all" && !n) return "";
+return `<button class="chip ${state.cat===k?"on":""}" data-cat="${k}">${l}<span>${n}</span></button>`;
+}).join("");
+}
+
+function renderMenu(){
+const all = `<ul><li><button class="${state.brand==="all"?"on":""}" data-brand="all">Բոլոր բրենդները<span>${PRODUCTS.length||""}</span></button></li></ul>`;
+const groups = BRAND_GROUPS.map(([title, brands], i) => {
+return `${i?'<div class="gap"></div>':""}<h3>${title}</h3><ul>` + brands.map(([name]) => {
+const n = PRODUCTS.filter(p=>brandMatch(p,name)).length;
+return `<li><button class="${state.brand===name?"on":""}" data-brand="${name}">${name}<span>${PRODUCTS.length?n:""}</span></button></li>`;
+}).join("") + `</ul>`;
+}).join("");
+$("menuBody").innerHTML = all + groups;
 }
 
 function renderMl(){
-  const all = [...new Set(PRODUCTS.flatMap(p=>p.sizes.map(s=>s.ml)))].sort((a,b)=>a-b);
-  $("ml").innerHTML = `<option value="all">Բոլոր ծավալները</option>` + all.map(m=>`<option value="${m}">${m} մլ</option>`).join("");
+const all = [...new Set(PRODUCTS.flatMap(p=>p.sizes.map(s=>s.ml)))].sort((a,b)=>a-b);
+$("ml").innerHTML = `<option value="all">Բոլոր ծավալները</option>` + all.map(m=>`<option value="${m}">${m} մլ</option>`).join("");
 }
 
 function renderGrid(){
-  const list = filtered();
-  $("title").textContent = state.favOnly ? "Ընտրյալներ" : (state.cat==="all" ? "Օծանելիք" : CATS.find(c=>c[0]===state.cat)[1]);
-  $("count").textContent = list.length + " ապրանք";
-  $("saleBtn").classList.toggle("on", state.sale);
-  $("grid").innerHTML = list.length ? list.map(p=>{
-    const old = p.sale ? `<s>${fmt(Math.min(...p.sizes.map(s=>s.price)))}</s>` : "";
-    return `<div class="card" data-id="${p.id}">
-      <div class="pic">${pic(p)}
-        ${p.isNew?'<div class="tag">ՆՈՐ</div>':""}
-        ${p.sale?`<div class="tag red">−${p.sale}%</div>`:""}
-        <button class="fav ${favs.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Ընտրյալ">${heart}</button>
-        <button class="plus" data-add="${p.id}" aria-label="Ավելացնել">+</button>
-      </div>
-      <div class="meta"><div class="brand">${p.brand}</div><div class="name">${p.name}</div>
-      <div class="price">${p.sizes.length>1?"սկսած ":""}${fmt(minPrice(p))}${old}</div></div>
-    </div>`;
-  }).join("") : `<div class="empty">Ոչինչ չգտնվեց</div>`;
+const list = filtered();
+$("title").textContent = state.favOnly ? "Ընտրյալներ" : (state.brand!=="all" ? state.brand : (state.cat==="all" ? "Օծանելիք" : CATS.find(c=>c[0]===state.cat)[1]));
+$("count").textContent = list.length + " ապրանք";
+$("saleBtn").classList.toggle("on", state.sale);
+$("grid").innerHTML = list.length ? list.map(p=>{
+const old = p.sale ? `<s>${fmt(Math.min(...p.sizes.map(s=>s.price)))}</s>` : "";
+return `<div class="card" data-id="${p.id}">
+<div class="pic">${pic(p)}
+${p.isNew?'<div class="tag">ՆՈՐ</div>':""}
+${p.sale?`<div class="tag red">−${p.sale}%</div>`:""}
+<button class="fav ${favs.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Ընտրյալ">${heart}</button>
+<button class="plus" data-add="${p.id}" aria-label="Ավելացնել">+</button>
+</div>
+<div class="meta"><div class="brand">${p.brand}</div><div class="name">${p.name}</div>
+<div class="price">${p.sizes.length>1?"սկսած ":""}${fmt(minPrice(p))}${old}</div></div>
+</div>`;
+}).join("") : `<div class="empty">Ոչինչ չգտնվեց</div>`;
 }
 
 function renderBadges(){
-  $("favN").textContent = favs.length || "";
-  $("cartN").textContent = cart.reduce((a,c)=>a+c.n,0) || "";
+$("favN").textContent = favs.length || "";
+$("cartN").textContent = cart.reduce((a,c)=>a+c.n,0) || "";
 }
 
 function toast(t){
-  const el=$("toast"); el.textContent=t; el.classList.add("on");
-  clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("on"),1800);
+const el=$("toast"); el.textContent=t; el.classList.add("on");
+clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("on"),1800);
 }
 
 function open(el){ $("shade").classList.add("on"); el.classList.add("on"); }
-function closeAll(){ $("shade").classList.remove("on"); $("prod").classList.remove("on"); $("cart").classList.remove("on"); }
+function closeAll(){ $("shade").classList.remove("on"); $("prod").classList.remove("on"); $("cart").classList.remove("on"); $("menu").classList.remove("on"); }
 
 function openProduct(id){
-  current = PRODUCTS.find(p=>p.id===id);
-  currentMl = current.sizes[0].ml;
-  drawProduct();
-  open($("prod"));
+current = PRODUCTS.find(p=>p.id===id);
+currentMl = current.sizes[0].ml;
+drawProduct();
+open($("prod"));
 }
+
 function drawProduct(){
-  const p=current, s=p.sizes.find(x=>x.ml===currentMl);
-  const old = p.sale ? `<s style="color:#8a8a8a;font-weight:400;margin-left:8px">${fmt(s.price)}</s>` : "";
-  $("prod").innerHTML = `
-    <div class="sh-h"><div><div class="brand">${p.brand}</div><h2>${p.name}</h2></div><button class="x" data-close>×</button></div>
-    <div class="pic" style="aspect-ratio:16/10">${pic(p)}</div>
-    <p class="desc">${p.desc}</p>
-    <div class="sizes">${p.sizes.map(x=>`<button class="sz ${x.ml===currentMl?"on":""}" data-ml="${x.ml}">${x.ml} մլ</button>`).join("")}</div>
-    <div class="total"><span>Գին</span><span>${fmt(price(p,s))}${old}</span></div>
-    <button class="btn" id="addBtn">Ավելացնել զամբյուղ</button>`;
+const p=current, s=p.sizes.find(x=>x.ml===currentMl);
+const old = p.sale ? `<s style="color:#8a8a8a;font-weight:400;margin-left:8px">${fmt(s.price)}</s>` : "";
+$("prod").innerHTML = `
+<div class="sh-h"><div><div class="brand">${p.brand}</div><h2>${p.name}</h2></div><button class="x" data-close>×</button></div>
+<div class="pic" style="aspect-ratio:16/10">${pic(p)}</div>
+<p class="desc">${p.desc}</p>
+<div class="sizes">${p.sizes.map(x=>`<button class="sz ${x.ml===currentMl?"on":""}" data-ml="${x.ml}">${x.ml} մլ</button>`).join("")}</div>
+<div class="total"><span>Գին</span><span>${fmt(price(p,s))}${old}</span></div>
+<button class="btn" id="addBtn">Ավելացնել զամբյուղ</button>`;
 }
 
 function addToCart(id, ml){
-  const f = cart.find(c=>c.id===id && c.ml===ml);
-  if(f) f.n++; else cart.push({id,ml,n:1});
-  save("lp_cart", cart); renderBadges(); toast("Ավելացվեց զամբյուղում");
+const f = cart.find(c=>c.id===id && c.ml===ml);
+if(f) f.n++; else cart.push({id,ml,n:1});
+save("lp_cart", cart); renderBadges(); toast("Ավելացվեց զամբյուղում");
 }
 
 function renderCart(){
-  if(!cart.length){
-    $("items").innerHTML = `<div class="empty">Զամբյուղը դատարկ է</div>`;
-    $("cartFoot").innerHTML = ""; return;
-  }
-  let sum = 0;
-  $("items").innerHTML = cart.map((c,i)=>{
-    const p = PRODUCTS.find(x=>x.id===c.id); if(!p) return "";
-    const s = p.sizes.find(x=>x.ml===c.ml) || p.sizes[0];
-    const pr = price(p,s); sum += pr*c.n;
-    return `<div class="it"><div class="th">${pic(p)}</div>
-      <div class="inf">${p.name}<br><small>${c.ml} մլ · ${fmt(pr)}</small></div>
-      <div class="qty"><button data-dec="${i}">−</button>${c.n}<button data-inc="${i}">+</button></div></div>`;
-  }).join("");
-  $("cartFoot").innerHTML = `
-    <div class="total"><span>Ընդամենը</span><span>${fmt(sum)}</span></div>
-    <button class="btn" id="orderBtn">Պատվիրել Instagram-ով</button>
-    <div class="note">Կպատճենվի պատվերի տեքստը և կբացվի Instagram Direct-ը՝ պարզապես տեղադրեք (Paste) և ուղարկեք։</div>`;
+if(!cart.length){
+$("items").innerHTML = `<div class="empty">Զամբյուղը դատարկ է</div>`;
+$("cartFoot").innerHTML = ""; return;
 }
+let sum = 0;
+$("items").innerHTML = cart.map((c,i)=>{
+const p = PRODUCTS.find(x=>x.id===c.id); if(!p) return "";
+const s = p.sizes.find(x=>x.ml===c.ml) || p.sizes[0];
+const pr = price(p,s); sum += pr*c.n;
+return `<div class="it"><div class="th">${pic(p)}</div>
+<div class="inf">${p.name}<br><small>${c.ml} մլ · ${fmt(pr)}</small></div>
+<div class="qty"><button data-dec="${i}">−</button>${c.n}<button data-inc="${i}">+</button></div></div>`;
+}).join("");
+$("cartFoot").innerHTML = `
+<div class="total"><span>Ընդամենը</span><span>${fmt(sum)}</span></div>
+<button class="btn" id="orderBtn">Պատվիրել Instagram-ով</button>
+<div class="note">Կպատճենվի պատվերի տեքստը և կբացվի Instagram Direct-ը՝ պարզապես տեղադրեք (Paste) և ուղարկեք։</div>`;
+}
+
 function orderText(){
-  let sum=0;
-  const lines = cart.map(c=>{
-    const p=PRODUCTS.find(x=>x.id===c.id); const s=p.sizes.find(x=>x.ml===c.ml)||p.sizes[0];
-    const pr=price(p,s); sum+=pr*c.n;
-    return `• ${p.brand} ${p.name} — ${c.ml} մլ × ${c.n} = ${fmt(pr*c.n)}`;
-  });
-  return "Բարև, ուզում եմ պատվիրել․\n" + lines.join("\n") + "\nԸնդամենը՝ " + fmt(sum);
+let sum=0;
+const lines = cart.map(c=>{
+const p=PRODUCTS.find(x=>x.id===c.id); const s=p.sizes.find(x=>x.ml===c.ml)||p.sizes[0];
+const pr=price(p,s); sum+=pr*c.n;
+return `• ${p.brand} ${p.name} — ${c.ml} մլ × ${c.n} = ${fmt(pr*c.n)}`;
+});
+return "Բարև, ուզում եմ պատվիրել․\n" + lines.join("\n") + "\nԸնդամենը՝ " + fmt(sum);
 }
+
 async function order(){
-  const t = orderText();
-  try{ await navigator.clipboard.writeText(t); toast("Պատվերը պատճենվեց"); }
-  catch(e){ prompt("Պատճենեք պատվերը․", t); }
-  setTimeout(()=>window.open("https://ig.me/m/"+CONFIG.instagram,"_blank"), 500);
+const t = orderText();
+try{ await navigator.clipboard.writeText(t); toast("Պատվերը պատճենվեց"); }
+catch(e){ prompt("Պատճենեք պատվերը․", t); }
+setTimeout(()=>window.open("https://ig.me/m/"+CONFIG.instagram,"_blank"), 500);
 }
 
 /* ---------- Իրադարձություններ ---------- */
 document.addEventListener("click", e=>{
-  const t = e.target;
-  let el;
-  if((el=t.closest("[data-fav]"))){
-    e.stopPropagation(); const id=+el.dataset.fav;
-    favs = favs.includes(id) ? favs.filter(x=>x!==id) : [...favs,id];
-    save("lp_favs",favs); renderBadges(); renderGrid(); return;
-  }
-  if((el=t.closest("[data-add]"))){ e.stopPropagation(); openProduct(+el.dataset.add); return; }
-  if((el=t.closest(".card"))){ openProduct(+el.dataset.id); return; }
-  if((el=t.closest("[data-cat]"))){ state.cat=el.dataset.cat; state.favOnly=false; renderChips(); renderGrid(); return; }
-  if((el=t.closest("[data-ml]"))){ currentMl=+el.dataset.ml; drawProduct(); return; }
-  if(t.id==="addBtn"){ addToCart(current.id,currentMl); closeAll(); return; }
-  if((el=t.closest("[data-inc]"))){ cart[+el.dataset.inc].n++; save("lp_cart",cart); renderCart(); renderBadges(); return; }
-  if((el=t.closest("[data-dec]"))){ const i=+el.dataset.dec; if(--cart[i].n<=0) cart.splice(i,1); save("lp_cart",cart); renderCart(); renderBadges(); return; }
-  if(t.id==="orderBtn"){ order(); return; }
-  if(t.closest("[data-close]") || t.id==="shade"){ closeAll(); }
+const t = e.target;
+let el;
+if((el=t.closest("[data-fav]"))){
+e.stopPropagation(); const id=+el.dataset.fav;
+favs = favs.includes(id) ? favs.filter(x=>x!==id) : [...favs,id];
+save("lp_favs",favs); renderBadges(); renderGrid(); return;
+}
+if((el=t.closest("[data-brand]"))){
+state.brand = el.dataset.brand; state.cat="all"; state.favOnly=false;
+renderChips(); renderMenu(); renderGrid(); closeAll();
+window.scrollTo({top:0,behavior:"smooth"}); return;
+}
+if((el=t.closest("[data-add]"))){ e.stopPropagation(); openProduct(+el.dataset.add); return; }
+if((el=t.closest(".card"))){ openProduct(+el.dataset.id); return; }
+if((el=t.closest("[data-cat]"))){ state.cat=el.dataset.cat; state.favOnly=false; renderChips(); renderGrid(); return; }
+if((el=t.closest("[data-ml]"))){ currentMl=+el.dataset.ml; drawProduct(); return; }
+if(t.id==="addBtn"){ addToCart(current.id,currentMl); closeAll(); return; }
+if((el=t.closest("[data-inc]"))){ cart[+el.dataset.inc].n++; save("lp_cart",cart); renderCart(); renderBadges(); return; }
+if((el=t.closest("[data-dec]"))){ const i=+el.dataset.dec; if(--cart[i].n<=0) cart.splice(i,1); save("lp_cart",cart); renderCart(); renderBadges(); return; }
+if(t.id==="orderBtn"){ order(); return; }
+if(t.closest("[data-close]") || t.id==="shade"){ closeAll(); }
 });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeAll(); });
+
 $("cartBtn").onclick = ()=>{ renderCart(); open($("cart")); };
 $("favBtn").onclick = ()=>{ state.favOnly=!state.favOnly; renderGrid(); window.scrollTo({top:0,behavior:"smooth"}); };
 $("searchBtn").onclick = ()=>{ $("q").scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(()=>$("q").focus(),350); };
-$("menuBtn").onclick = ()=>{ window.open("https://instagram.com/"+CONFIG.instagram,"_blank"); };
+$("menuBtn").onclick = ()=>{ renderMenu(); open($("menu")); };
 $("q").oninput = e=>{ state.q=e.target.value.trim(); renderGrid(); };
 $("saleBtn").onclick = ()=>{ state.sale=!state.sale; renderGrid(); };
 $("ml").onchange = e=>{ state.ml=e.target.value; renderGrid(); };
 $("sort").onchange = e=>{ state.sort=e.target.value; renderGrid(); };
-$("clear").onclick = ()=>{ state={cat:"all",q:"",sale:false,ml:"all",sort:"new",favOnly:false}; $("q").value=""; $("ml").value="all"; $("sort").value="new"; renderChips(); renderGrid(); };
+$("clear").onclick = ()=>{ state={cat:"all",q:"",sale:false,ml:"all",sort:"new",favOnly:false,brand:"all"}; $("q").value=""; $("ml").value="all"; $("sort").value="new"; renderChips(); renderMenu(); renderGrid(); };
 
 async function init(){
-  renderBadges();
-  $("grid").innerHTML = '<div class="empty">Բեռնվում է...</div>';
-  try{
-    const r = await fetch(CONFIG.supabaseUrl + "/rest/v1/products?select=*&order=id.desc", {
-      headers: { apikey: CONFIG.supabaseKey }
-    });
-    if(!r.ok) throw new Error(r.status);
-    const rows = await r.json();
-    PRODUCTS = rows.map(x=>({
-      id:x.id, brand:x.brand||"", name:x.name, cat:x.cat, isNew:!!x.is_new,
-      sale:x.sale||0, img:x.img||"", color:x.color||"#d9c9a8",
-      desc:x.description||"", sizes:(x.sizes&&x.sizes.length)?x.sizes:[{ml:50,price:0}]
-    }));
-  }catch(e){
-    $("grid").innerHTML = '<div class="empty">Չհաջողվեց բեռնել ապրանքները։ Թարմացրեք էջը։</div>';
-    return;
-  }
-  cart = cart.filter(c=>PRODUCTS.some(p=>p.id===c.id)); save("lp_cart",cart);
-  favs = favs.filter(id=>PRODUCTS.some(p=>p.id===id)); save("lp_favs",favs);
-  renderChips(); renderMl(); renderGrid(); renderBadges();
+renderBadges(); renderMenu();
+$("grid").innerHTML = '<div class="empty">Բեռնվում է...</div>';
+try{
+const r = await fetch(CONFIG.supabaseUrl + "/rest/v1/products?select=*&order=id.desc", {
+headers: { apikey: CONFIG.supabaseKey }
+});
+if(!r.ok) throw new Error(r.status);
+const rows = await r.json();
+PRODUCTS = rows.map(x=>({
+id:x.id, brand:x.brand||"", name:x.name, cat:x.cat, isNew:!!x.is_new,
+sale:x.sale||0, img:x.img||"", color:x.color||"#d9c9a8",
+desc:x.description||"", sizes:(x.sizes&&x.sizes.length)?x.sizes:[{ml:50,price:0}]
+}));
+}catch(e){
+$("grid").innerHTML = '<div class="empty">Չհաջողվեց բեռնել ապրանքները։ Թարմացրեք էջը։</div>';
+return;
+}
+cart = cart.filter(c=>PRODUCTS.some(p=>p.id===c.id)); save("lp_cart",cart);
+favs = favs.filter(id=>PRODUCTS.some(p=>p.id===id)); save("lp_favs",favs);
+renderChips(); renderMl(); renderMenu(); renderGrid(); renderBadges();
 }
 init();
 </script>
