@@ -104,6 +104,7 @@ footer a{color:var(--ink)}
 .menu li button span{color:var(--mute);font-size:14px}
 .menu li button.on span{color:#bbb}
 .menu .gap{height:8px;background:#f4f4f4;margin-top:16px}
+.menu a.cat{display:flex;justify-content:space-between;align-items:center;background:var(--teal);color:#fff;text-decoration:none;padding:18px 20px;font-size:17px;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -156,7 +157,7 @@ footer a{color:var(--ink)}
 /* ============ ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ ============
 Ապրանքները ավելացվում/փոխվում են Supabase → Table Editor → products */
 const CONFIG = {
-instagram: "luxe_parfume_shop", // Instagram-ի անունը (առանց @)
+instagram: "luxe_parfume__shop__", // Instagram-ի անունը (առանց @)
 topText: "Անվճար առաքում Երևանի մետրոյի կայարաններում", // վերևի սև գոտու տեքստը
 currency: "֏",
 supabaseUrl: "https://eyasccbvnzactrybnmtu.supabase.co",
@@ -248,7 +249,8 @@ const n = PRODUCTS.filter(p=>brandMatch(p,name)).length;
 return `<li><button class="${state.brand===name?"on":""}" data-brand="${name}">${name}<span>${PRODUCTS.length?n:""}</span></button></li>`;
 }).join("") + `</ul>`;
 }).join("");
-$("menuBody").innerHTML = all + groups;
+const catalog = `<a class="cat" href="brands.html">Բրենդների կատալոգ <span>→</span></a>`;
+$("menuBody").innerHTML = catalog + all + groups;
 }
 
 function renderMl(){
